@@ -1,0 +1,41 @@
+<%- include("partials/header"); -%>
+
+
+
+<br>
+<div class="container">
+
+<center>
+<h2 class="display-4" >Home</h2>
+</center>
+</div>
+<center>
+<br>
+<br>
+<h4 class="display-6" >Posts</h4>
+<hr style="width: 54%;">
+</center>
+
+<br>
+<br>
+
+<!--  < %  newListItemsIHARKEVOCH.forEach(function(item, about){  % > -->
+    <!-- < % if(about == "danger"){ % >
+
+    < % } % >
+< % }  % >-->
+<% posts.forEach(function(newpost){ %>
+<div class= "<%=newpost.color%>" id="card-post" style="width: 50%;">
+  <div class="card-header">Header</div>
+  <div class="card-body text-primary">
+    <h5 class="card-title"><%=newpost.title%></h5>
+    <p class="card-text"><%=newpost.content.substring(0, 100) + "..."%><a href="/posts/<%=newpost._id%>">Read More</p>
+  </div>
+  <!-- <div class="card-footer" style="width: 100%;">
+	<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" onclick="checklike()">
+<label class="btn btn-outline-primary" for="btn-check-outlined"><i id="emptyheart" class="far fa-heart"></i> Like </label>&ensp;<text class="text-primary" id="likec">0</text><br>
+</div> -->
+</div>
+<% }) %>
+
+<%- include("partials/footer"); -%>
