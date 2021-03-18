@@ -19,11 +19,11 @@ app.use(bodyParser.urlencoded({
 }))
 
 
-app.use(session({
-  secret: "My little secret.",
-  resave: false,
-  saveUninitialized: false
-}));
+// app.use(session({
+//   secret: "My little secret.",
+//   resave: false,
+//   saveUninitialized: false
+// }));
 
 app.use(passport.initialize());
 app.use(passport.session());
