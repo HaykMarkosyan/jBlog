@@ -5,7 +5,6 @@ const session = require("express-session")
 const bodyParser = require("body-parser")
 const ejs = require("ejs")
 const mongoose = require("mongoose")
-// const _ = require("lodash");
 const passport = require("passport")
 const passportLocalMongoose = require("passport-local-mongoose")
 const LocalStrategy = require('passport-local').Strategy;
