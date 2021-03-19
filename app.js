@@ -174,7 +174,7 @@ app.post("/compose", function(req, res) {
 		const newpost = new Posts ({
 			title: req.body.postTitle,
 			content: req.body.postBody,
-			color: "card border-" + req.body.color + " mb-3"
+			color: req.body.color
 		})
 
 		posts.push(newpost);

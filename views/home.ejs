@@ -25,11 +25,11 @@
     < % } % >
 < % }  % >-->
 <% posts.forEach(function(newpost){ %>
-<div class= "<%=newpost.color%>" id="card-post" style="width: 50%;">
-  <div class="card-header">Header</div>
+<div class= "card border- <%=newpost.color%> mb-3" id="card-post" style="width: 50%;">
+  <div class="card-header bg-<%=newpost.color%>">Header</div>
   <div class="card-body text-primary">
     <h5 class="card-title"><%=newpost.title%></h5>
-    <p class="card-text"><%=newpost.content.substring(0, 100) + "..."%><a href="/posts/<%=newpost._id%>">Read More</p>
+    <p class="card-text"><%=newpost.content.substring(0, 10) + "..."%><a href="/posts/<%=newpost._id%>">Read More</a></p>
   </div>
   <!-- <div class="card-footer" style="width: 100%;">
 	<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" onclick="checklike()">
