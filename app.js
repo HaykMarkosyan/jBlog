@@ -64,6 +64,7 @@ const postSchema = {
 const Posts = mongoose.model("Posts", postSchema)
 
 let posts = [];
+let logined = false;
 
 // GET s
 
@@ -86,7 +87,9 @@ app.get("/", function(req, res) {
 	})
 })
 
+
 app.get("/home", function(req, res) {
+	if(logined == true){
 	Posts.find({}, function(err, foundItems){
 	if(!err){
 			res.render("home", {posts: foundItems})
@@ -94,10 +97,13 @@ app.get("/home", function(req, res) {
 		console.log(err)
 	}
 })
+} else {
+	res.redirect("/login")
+}
 })
 
 app.get("/posts/:postId", function(req, res){
-
+if(logined == true){
 	const requestedPostId = req.params.postId;
 
 		Posts.findOne({_id: requestedPostId}, function(err, post){
@@ -108,21 +114,32 @@ app.get("/posts/:postId", function(req, res){
       		});
 
 	  })
+	}
 })
 
 app.get("/about", function(req, res) {
+	if(logined == true){
 	res.render("about")
+} else {
+	res.redirect("/login")
+}
 })
 
 app.get("/compose", function(req, res) {
+	if(logined == true){
 	res.render("compose")
+} else {
+	res.redirect("/login")
+}
 })
+
 
 app.get("/register", function(req, res) {
 	res.render("register")
 })
 
 app.get("/login", function(req, res, login) {
+	logined = false;
 	res.render("login")
 })
 
@@ -163,7 +180,7 @@ app.post("/login", function(req, res){
 	    } else {
 
 	      passport.authenticate("local")(req, res, function(){
-
+					logined = true;
 	        res.redirect("/");
 				});
 	    }

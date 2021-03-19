@@ -19,3 +19,6 @@
 	height: 60px;
 	background-color: #E9EEF3 /* aranc color       linear-gradient(rgb(52, 102, 174) 0%, rgb(83, 144, 241) 100%)*/;
 }
+.blog-footer {
+	background: #64B5F6; position: fixed; left: 0; bottom: 0; width: 100%; text-align: center;
+}

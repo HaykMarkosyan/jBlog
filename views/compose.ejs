@@ -1,9 +1,9 @@
 <%- include("partials/header") -%>
 
 <center>
+  <br>
+  <br>
 <h2 class="display-4" >Compose</h2>
-
-<br>
 <br>
 <h4 class="display-6" >Make your post</h4>
 <hr style="width: 54%;">
@@ -14,15 +14,14 @@
   <form class="" action="/compose" method="POST">
     <div class="form-group">
       <label>Post Title</label>
-      <input class="form-control" type="text" name="postTitle">
+      <input class="form-control" type="text" name="postTitle" required>
       <label>Post (text)</label>
-      <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+      <textarea class="form-control" name="postBody" rows="5" cols="30" required></textarea>
       <br>
       <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">Options</label>
+        <label class="input-group-text" for="inputGroupSelect01">choose...</label>
           <select class="form-select" id="inputGroupSelect01" name="color">
-            <option selected>Choose...(Primary)</option>
-            <option class="bg-primary" value="primary">Primary</option>
+            <option class="bg-primary" value="primary" selected>Primary</option>
             <option class="bg-secondary" value="secondary">Secondary</option>
             <option class="bg-success" value="success">Success</option>
             <option class="bg-danger" value="danger">Danger</option>
