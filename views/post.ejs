@@ -2,7 +2,20 @@
 <br>
 <br>
 <br>
-<h1 class="text-<%=color%>"><%=title%></h1>
-<p><%=content%></p>
+<a href="/" style="color: #0275d8;" class="btn"><i class="fas fa-arrow-left"></i> Back</a>
+<br>
+<center>
+  <div style="width:79%; font-family: italy;">
+  <h3><%=username%>'s post</h3>
+  <hr>
+  </div>
+<br>
+  <div class="card w-75 card border-<%=color%>">
+    <div class="card-body">
+      <h5 class="card-title"><%=title%></h5>
+      <p class="card-text"><%=content%></p>
+    </div>
+  </div>
+</center>
 
 <%- include("partials/footer"); -%>

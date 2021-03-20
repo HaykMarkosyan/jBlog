@@ -58,6 +58,7 @@ passport.deserializeUser(function (id, done) {
 const postSchema = {
     title: String,
     content: String,
+		username: String,
     color: String
 }
 
@@ -65,6 +66,8 @@ const Posts = mongoose.model("Posts", postSchema)
 
 let posts = [];
 let logined = false;
+let pusername = "";
+
 
 // GET s
 
@@ -115,6 +118,7 @@ app.get("/posts/:postId", function (req, res) {
             res.render("post", {
                 title: post.title,
                 content: post.content,
+								username: post.username,
 								color: post.color
             });
 
@@ -194,6 +198,8 @@ app.post("/login", function (req, res) {
 
             passport.authenticate("local")(req, res, function () {
                 logined = true;
+								console.log(user.username)
+								pusername = user.username;
                 res.redirect("/");
             });
         }
@@ -204,6 +210,7 @@ app.post("/compose", function (req, res) {
     const newpost = new Posts({
         title: req.body.postTitle,
         content: req.body.postBody,
+				username: pusername,
         color: req.body.color
     })
 
@@ -218,6 +225,28 @@ app.post("/compose", function (req, res) {
     })
     res.redirect("/")
 })
+
+
+app.post("/posts", function(req, res) {
+	if (logined == true) {
+
+		// let searchresults = [];
+
+			Posts.find({title: req.body.tsearch}, function (err, foundItems) {
+					if (!err) {
+						res.render("posts", { posts: foundItems })
+					} else {
+						console.log(err)
+					}
+			})
+
+
+
+	} else {
+ 		res.redirect("/login")
+ }
+})
+
 
 
 let port = process.env.PORT;

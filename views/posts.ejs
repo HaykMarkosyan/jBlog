@@ -1,13 +1,13 @@
 <%- include("partials/header"); -%>
 
-
-
 <br>
+<br>
+<br>
+<a href="/home" style="color: #0275d8;" class="btn"><i class="fas fa-arrow-left"></i> Back</a>
 <div class="container">
 <br>
-<br>
 <center>
-<h2 class="display-4" >Home</h2>
+<h2 class="display-4" >Search results</h2>
 </center>
 </div>
 <center>
@@ -18,9 +18,14 @@
 
 <br>
 <br>
+<% if(posts.length == 0){ %>
+  <center>
+  <p> No title found :( </p>
+  </center>
+<% } %>
 <% posts.forEach(function(newpost){ %>
 <div class= "card border-<%=newpost.color%> mb-3" id="card-post" style="width: 75%;">
-  <div class="card-header text-<%=newpost.color%>"><%=newpost.username%></div>
+  <div class="card-header text-<%=newpost.color%>"><%=newpost.color%></div>
   <div class="card-body card text-<%=newpost.color%>">
     <h5 class="card-title"><%=newpost.title%></h5>
     <p class="card-text"><%=newpost.content.substring(0, 6) + "..."%><a href="/posts/<%=newpost._id%>">Read More</a></p>

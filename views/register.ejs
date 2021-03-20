@@ -16,9 +16,12 @@
 
 </head>
 
-<body><br><br><br>
+<body>
+  <br>
+  <a href="/in" style="color: #0275d8;" class="btn"><i class="fas fa-arrow-left"></i> Back</a>
+  <br><br>
   <center>
-  <i class="fas fa-user-plus fa-6x"></i><br><br>
+  <i style="color: #0275d8;" class="fas fa-user-plus fa-6x"></i><br><br>
   </center>
     <form id="login" class="" action="/register" method="POST">
         <div class="container" style="width: 50%;">
@@ -30,7 +33,7 @@
                         <label for="floatingInput">Username</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" min=8>
                         <label for="floatingPassword">Password</label>
                     </div><br>
                     <button class="btn btn-primary" type="submit" name="button">Sing up</button>&nbsp;&nbsp;&nbsp;

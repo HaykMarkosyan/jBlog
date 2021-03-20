@@ -33,11 +33,11 @@
           <a class="nav-link active" href="/about"><i style="color: #0275d8;" class="fas fa-book-open"></i> About</a>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-1" type="search" placeholder="Search posts" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit" >Search</button>
+      <form class="d-flex" action="/posts" method="POST">
+        <input class="form-control me-1" type="search" placeholder="Search posts" aria-label="Search" name="tsearch">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
       </form>
-			<a class="nav-link active" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+			<a class="nav-link active" href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
     </div>
   </div>
 </nav>
