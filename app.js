@@ -15,7 +15,7 @@ const app = express();
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({
-	extended: true
+    extended: true
 }))
 
 
@@ -31,10 +31,10 @@ app.use(passport.session());
 
 mongoose.connect("mongodb+srv://admin-hayk:Test@cluster0.d8y9j.mongodb.net/jBlogDB", { useUnifiedTopology: true });
 
-const userSchema = new mongoose.Schema ({
-  email: String,
-  username: String,
-  password: String
+const userSchema = new mongoose.Schema({
+    email: String,
+    username: String,
+    password: String
 });
 
 
@@ -45,20 +45,20 @@ const Users = mongoose.model("Users", userSchema);
 
 passport.use(Users.createStrategy());
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  Users.findById(id, function(err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(function (id, done) {
+    Users.findById(id, function (err, user) {
+        done(err, user);
+    });
 });
 
 const postSchema = {
-	title: String,
-	content: String,
-	color: String
+    title: String,
+    content: String,
+    color: String
 }
 
 const Posts = mongoose.model("Posts", postSchema)
@@ -69,151 +69,162 @@ let logined = false;
 // GET s
 
 
-app.get("/in", function(req, res) {
- res.render("0")
+app.get("/in", function (req, res) {
+    res.render("0")
 })
 
-app.get("/new", function(req, res) {
-	res.render("0")
+app.get("/new", function (req, res) {
+    res.render("0") //voch misht animaciai ej kam div piti sarqvi
 })
 
-app.get("/", function(req, res) {
-	Posts.find({}, function(err, foundItems){
-			if(!err){
-					res.render("home", {posts: foundItems})
-			} else {
-					console.log(err)
-			}
-	})
-})
-
-
-app.get("/home", function(req, res) {
-	if(logined == true){
-	Posts.find({}, function(err, foundItems){
-	if(!err){
-			res.render("home", {posts: foundItems})
-	} else {
-		console.log(err)
-	}
-})
-} else {
-	res.redirect("/login")
-}
-})
-
-app.get("/posts/:postId", function(req, res){
-if(logined == true){
-	const requestedPostId = req.params.postId;
-
-		Posts.findOne({_id: requestedPostId}, function(err, post){
-
-					res.render("post", {
-        			title: post.title,
-        			content: post.content
-      		});
-
-	  })
-	}
-})
-
-app.get("/about", function(req, res) {
-	if(logined == true){
-	res.render("about")
-} else {
-	res.redirect("/login")
-}
-})
-
-app.get("/compose", function(req, res) {
-	if(logined == true){
-	res.render("compose")
-} else {
-	res.redirect("/login")
-}
+app.get("/", function (req, res) {
+    if (logined == true) {
+        Posts.find({}, function (err, foundItems) {
+            if (!err) {
+                res.render("home", { posts: foundItems })
+            } else {
+                console.log(err)
+            }
+        })
+    } else {
+        res.render("0")
+    }
 })
 
 
-app.get("/register", function(req, res) {
-	res.render("register")
+app.get("/home", function (req, res) {
+    if (logined == true) {
+        Posts.find({}, function (err, foundItems) {
+            if (!err) {
+                res.render("home", { posts: foundItems })
+            } else {
+                console.log(err)
+            }
+        })
+    } else {
+        res.redirect("/login")
+    }
 })
 
-app.get("/login", function(req, res, login) {
-	logined = false;
-	res.render("login")
+app.get("/posts/:postId", function (req, res) {
+    if (logined == true) {
+        const requestedPostId = req.params.postId;
+
+        Posts.findOne({ _id: requestedPostId }, function (err, post) {
+
+            res.render("post", {
+                title: post.title,
+                content: post.content,
+								color: post.color
+            });
+
+        })
+    }
+})
+
+app.get("/about", function (req, res) {
+    if (logined == true) {
+        res.render("about")
+    } else {
+        res.redirect("/")
+    }
+})
+
+app.get("/compose", function (req, res) {
+    if (logined == true) {
+        res.render("compose")
+    } else {
+        res.redirect("/")
+    }
 })
 
 
-app.get("/logout", function(req, res, login){
-  req.logout();
-  res.redirect("/login");
+app.get("/register", function (req, res) {
+    if (logined == true) {
+        res.redirect("/")
+    } else {
+        res.render("register")
+    }
+})
+
+app.get("/login", function (req, res, login) {
+    if (logined == true) {
+        res.redirect("/")
+    } else {
+        res.render("login")
+    }
+})
+
+
+app.get("/logout", function (req, res, login) {
+    req.logout();
+    logined = false;
+    res.redirect("/");
 });
 
 
 // POST s
 
 
-app.post("/register", function(req, res){
+app.post("/register", function (req, res) {
 
-  Users.register({username: req.body.username}, req.body.password, function(err, user){
-    if (err) {
-      console.log(err);
-      res.redirect("/register");
-    } else {
-      passport.authenticate("local")(req, res, function(){
-        res.redirect("/new");
-      });
-    }
-  });
+    Users.register({ username: req.body.username }, req.body.password, function (err, user) {
+        if (err) {
+            console.log(err);
+            res.redirect("/register");
+        } else {
+            passport.authenticate("local")(req, res, function () {
+                res.redirect("/new");
+            });
+        }
+    });
 
 });
 
-app.post("/login", function(req, res){
-	const user = new Users ({
-		username: req.body.username,
-		password: req.body.password
-	})
+app.post("/login", function (req, res) {
+    const user = new Users({
+        username: req.body.username,
+        password: req.body.password
+    })
 
-	req.login(user, function(err){
-	    if (err) {
-	      console.log(err);
-	    } else {
+    req.login(user, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
 
-	      passport.authenticate("local")(req, res, function(){
-					logined = true;
-	        res.redirect("/");
-				});
-	    }
-  });
+            passport.authenticate("local")(req, res, function () {
+                logined = true;
+                res.redirect("/");
+            });
+        }
+    });
 })
 
-app.post("/compose", function(req, res) {
-		const newpost = new Posts ({
-			title: req.body.postTitle,
-			content: req.body.postBody,
-			color: req.body.color
-		})
+app.post("/compose", function (req, res) {
+    const newpost = new Posts({
+        title: req.body.postTitle,
+        content: req.body.postBody,
+        color: req.body.color
+    })
 
-		posts.push(newpost);
+    posts.push(newpost);
 
-		Posts.insertMany(newpost, function(err){
-			if(err){
-				console.log(err)
-			} else {
-				console.log(newpost)
-			}
-		})
-		res.redirect("/")
+    Posts.insertMany(newpost, function (err) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(newpost)
+        }
+    })
+    res.redirect("/")
 })
-
-
 
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 3000;
+    port = 3000;
 }
 
-app.listen(port, function() {
-  console.log("Server has started successfully.");
+app.listen(port, function () {
+    console.log("Server has started successfully.");
 });

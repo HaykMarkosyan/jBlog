@@ -5,6 +5,7 @@
 }
 
 #card-post{
+	top: 100%;
    margin: 0 auto;
 }
 /* .footer-padding {
@@ -21,4 +22,8 @@
 }
 .blog-footer {
 	background: #64B5F6; position: fixed; left: 0; bottom: 0; width: 100%; text-align: center;
+}
+
+.try{
+	top:auto;
 }
