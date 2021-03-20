@@ -19,11 +19,11 @@ app.use(bodyParser.urlencoded({
 }))
 
 
-// app.use(session({
-//   secret: "My little secret.",
-//   resave: false,
-//   saveUninitialized: false
-// }));
+app.use(session({
+  secret: "My little secret.",
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,15 +58,13 @@ passport.deserializeUser(function (id, done) {
 const postSchema = {
     title: String,
     content: String,
-		username: String,
+        username: String,
     color: String
 }
 
 const Posts = mongoose.model("Posts", postSchema)
 
 let posts = [];
-let logined = false;
-let pusername = "";
 
 
 // GET s
@@ -81,8 +79,7 @@ app.get("/new", function (req, res) {
 })
 
 app.get("/", function (req, res) {
-    if (logined == true) {
-			passport.authenticate("local-login")(req, res, function () {	
+    if (req.session.loggedin) {
         Posts.find({}, function (err, foundItems) {
             if (!err) {
                 res.render("home", { posts: foundItems })
@@ -90,7 +87,7 @@ app.get("/", function (req, res) {
                 console.log(err)
             }
         })
-			});
+
     } else {
         res.render("0")
     }
@@ -98,7 +95,7 @@ app.get("/", function (req, res) {
 
 
 app.get("/home", function (req, res) {
-    if (logined == true) {
+    if (req.session.loggedin) {
         Posts.find({}, function (err, foundItems) {
             if (!err) {
                 res.render("home", { posts: foundItems })
@@ -112,7 +109,7 @@ app.get("/home", function (req, res) {
 })
 
 app.get("/posts/:postId", function (req, res) {
-    if (logined == true) {
+    if (req.session.loggedin) {
         const requestedPostId = req.params.postId;
 
         Posts.findOne({ _id: requestedPostId }, function (err, post) {
@@ -120,8 +117,8 @@ app.get("/posts/:postId", function (req, res) {
             res.render("post", {
                 title: post.title,
                 content: post.content,
-								username: post.username,
-								color: post.color
+                                username: post.username,
+                                color: post.color
             });
 
         })
@@ -129,7 +126,7 @@ app.get("/posts/:postId", function (req, res) {
 })
 
 app.get("/about", function (req, res) {
-    if (logined == true) {
+    if (req.session.loggedin) {
         res.render("about")
     } else {
         res.redirect("/")
@@ -137,7 +134,7 @@ app.get("/about", function (req, res) {
 })
 
 app.get("/compose", function (req, res) {
-    if (logined == true) {
+    if (req.session.loggedin) {
         res.render("compose")
     } else {
         res.redirect("/")
@@ -146,7 +143,7 @@ app.get("/compose", function (req, res) {
 
 
 app.get("/register", function (req, res) {
-    if (logined == true) {
+    if (req.session.loggedin) {
         res.redirect("/")
     } else {
         res.render("register")
@@ -154,7 +151,7 @@ app.get("/register", function (req, res) {
 })
 
 app.get("/login", function (req, res, login) {
-    if (logined == true) {
+    if (req.session.loggedin) {
         res.redirect("/")
     } else {
         res.render("login")
@@ -164,7 +161,7 @@ app.get("/login", function (req, res, login) {
 
 app.get("/logout", function (req, res, login) {
     req.logout();
-    logined = false;
+    req.session.loggedin = false;
     res.redirect("/");
 });
 
@@ -199,9 +196,8 @@ app.post("/login", function (req, res) {
         } else {
 
             passport.authenticate("local")(req, res, function () {
-                logined = true;
-								console.log(user.username)
-								pusername = user.username;
+                            req.session.loggedin = true;
+                            req.session.username = username;
                 res.redirect("/");
             });
         }
@@ -212,7 +208,7 @@ app.post("/compose", function (req, res) {
     const newpost = new Posts({
         title: req.body.postTitle,
         content: req.body.postBody,
-				username: pusername,
+                username: req.session.username,
         color: req.body.color
     })
 
@@ -230,22 +226,22 @@ app.post("/compose", function (req, res) {
 
 
 app.post("/posts", function(req, res) {
-	if (logined == true) {
+    if (req.session.loggedin) {
 
-		// let searchresults = [];
+        // let searchresults = [];
 
-			Posts.find({title: req.body.tsearch}, function (err, foundItems) {
-					if (!err) {
-						res.render("posts", { posts: foundItems })
-					} else {
-						console.log(err)
-					}
-			})
+            Posts.find({title: req.body.tsearch}, function (err, foundItems) {
+                    if (!err) {
+                        res.render("posts", { posts: foundItems })
+                    } else {
+                        console.log(err)
+                    }
+            })
 
 
 
-	} else {
- 		res.redirect("/login")
+    } else {
+        res.redirect("/login")
  }
 })
 
