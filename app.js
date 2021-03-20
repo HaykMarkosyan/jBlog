@@ -82,7 +82,7 @@ app.get("/new", function (req, res) {
 
 app.get("/", function (req, res) {
     if (logined == true) {
-			passport.authenticate("local")(req, res, function () {	
+			passport.authenticate("local-login")(req, res, function () {	
         Posts.find({}, function (err, foundItems) {
             if (!err) {
                 res.render("home", { posts: foundItems })
