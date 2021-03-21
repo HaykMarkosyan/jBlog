@@ -58,7 +58,7 @@ passport.deserializeUser(function (id, done) {
 const postSchema = {
     title: String,
     content: String,
-        username: String,
+    username: String,
     color: String
 }
 
@@ -117,8 +117,8 @@ app.get("/posts/:postId", function (req, res) {
             res.render("post", {
                 title: post.title,
                 content: post.content,
-                                username: post.username,
-                                color: post.color
+                username: post.username,
+                color: post.color
             });
 
         })
@@ -197,7 +197,7 @@ app.post("/login", function (req, res) {
 
             passport.authenticate("local")(req, res, function () {
                             req.session.loggedin = true;
-                            req.session.username = username;
+                            req.session.username = user.username;
                 res.redirect("/");
             });
         }
@@ -208,7 +208,7 @@ app.post("/compose", function (req, res) {
     const newpost = new Posts({
         title: req.body.postTitle,
         content: req.body.postBody,
-                username: req.session.username,
+        username: req.session.username,
         color: req.body.color
     })
 
