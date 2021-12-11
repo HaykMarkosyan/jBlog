@@ -29,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb+srv://admin-hayk:Test@cluster0.d8y9j.mongodb.net/jBlogDB", { useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://admin-hayk:<password>@cluster0.d8y9j.mongodb.net/jBlogDB", { useUnifiedTopology: true });
 
 const userSchema = new mongoose.Schema({
     email: String,
